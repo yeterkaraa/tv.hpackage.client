@@ -1,0 +1,48 @@
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\bin\Debug\net5.0\TourVisio.WebService.Client.deps.json
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\bin\Debug\net5.0\TourVisio.WebService.Client.dll
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\bin\Debug\net5.0\ref\TourVisio.WebService.Client.dll
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\bin\Debug\net5.0\TourVisio.WebService.Client.pdb
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.csproj.AssemblyReference.cache
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.AssemblyInfoInputs.cache
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.AssemblyInfo.cs
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.csproj.CoreCompileInputs.cache
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.dll
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\ref\TourVisio.WebService.Client.dll
+C:\Users\CEREN TARHAN\source\repos\loginPage\TourVisio.WebService.Client\obj\Debug\net5.0\TourVisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.deps.json
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.AssemblyReference.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfoInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfo.cs
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.CoreCompileInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.deps.json
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\bin\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfoInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfo.cs
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.CoreCompileInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client-main\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.AssemblyReference.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.deps.json
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\bin\Debug\net5.0\Tourvisio.WebService.Client.pdb
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.AssemblyReference.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfoInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.AssemblyInfo.cs
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.csproj.CoreCompileInputs.cache
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\ref\Tourvisio.WebService.Client.dll
+C:\Users\yeter\OneDrive\Masaüstü\tv.hpackage.client\Tourvisio.WebService.Client\obj\Debug\net5.0\Tourvisio.WebService.Client.pdb
