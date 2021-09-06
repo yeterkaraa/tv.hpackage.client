@@ -1,0 +1,218 @@
+﻿@model ReservationModel
+@using Newtonsoft.Json;
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h3 style="color:blue">Your Holiday Packages </h3>
+<style>
+    table {
+        border-collapse: collapse;
+        font-family: helvetica
+    }
+
+    td, th {
+        border: 1px solid;
+        padding: 10px;
+        background: white;
+        box-sizing: border-box;
+        text-align: left;
+    }
+</style>
+<br>
+<h5 style="color:deepskyblue">Hotel Details</h5>
+<table border="1">
+    <tr>
+
+        <td></td>
+        <td style="color:cornflowerblue"><b>Hotel Name</b></td>
+
+        <td></td>
+        <td style="color:cornflowerblue"><b>City Name</b></td>
+        <td></td>
+        <td style="color:cornflowerblue"><b>Room Type</b></td>
+        <td></td>
+        <td style="color:cornflowerblue"><b>Room Boards</b></td>
+        <td></td>
+        <td style="color:cornflowerblue"><b>Nights</b></td>
+        <td></td>
+        <td style="color:cornflowerblue"><b>Price</b></td>
+        <td></td>
+        @foreach (var service in Model.TransactionResponse.ReservationData.Services.Where(s => s.ProductType == TourVisio.WebService.Adapter.Enums.enmProductType.Hotel))
+        {
+<tr>
+    <td></td>
+    <td>@service.ServiceDetails.HotelDetail.Name</td>
+    <td></td>
+    <td>@service.ServiceDetails.HotelDetail.Location.Name</td>
+    <td></td>
+    <td>@service.ServiceDetails.Room</td>
+    <td></td>
+    <td>@service.ServiceDetails.Board</td>
+    <td></td>
+    <td>@service.ServiceDetails.Night</td>
+    <td></td>
+    <td>@service.Price</td>
+    <td></td>
+</tr>
+}
+
+    </table>
+
+
+    <br>
+    <h5 style="color:deepskyblue">Flight Details</h5>
+
+    <table>
+        <tr>
+            <td></td>
+            <td style="color:cornflowerblue"><b>Departure-Arrival</b></td>
+            <td></td>
+            <td></td>
+            <td style="color:cornflowerblue"><b>Departure-Arrival Date</b></td>
+            <td></td>
+            <td style="color:cornflowerblue"><b>Class</b></td>
+            <td></td>
+            <td style="color:cornflowerblue"><b>Price</b></td>
+            <td></td>
+
+
+            @foreach (var service in Model.TransactionResponse.ReservationData.Services.Where(s => s.ProductType == TourVisio.WebService.Adapter.Enums.enmProductType.Flight))
+            {
+<tr>
+    <td></td>
+
+    <td>@service.ServiceDetails.FlightInfo.Departure.Airport.Name</td>
+    <td></td>
+    <td></td>
+    <td>@service.ServiceDetails.FlightInfo.FlightDate.Date.ToString("dd.MM.yyyy")</td>
+    <td></td>
+    <td>@service.ServiceDetails.FlightInfo.FlightClass.Name</td>
+    <td></td>
+    <td>@service.Price</td>
+    <td></td>
+</tr>
+}
+
+
+
+        </table>
+
+        <br>
+
+
+
+        <h2 style="color:black">Passenger Information</h2>
+
+        @{ var rindex = 1; }
+
+        <input type="hidden" name="RoomCount" value="@(Model.Rooms.Count())">
+        <input type="hidden" name="TransactionId" value="@(Model.TransactionResponse.TransactionId)">
+        <input type="hidden" name="Currency" value="@(Model.TransactionResponse.ReservationData.ReservationInfo.SalePrice.Currency)">
+        <input type="hidden" name="AgencyReservationNumber" value="@(Model.TransactionResponse.ReservationData.ReservationInfo.AgencyReservationNumber)">
+        <input type="hidden" name="ReservationInfo" value="@(JsonConvert.SerializeObject(Model.TransactionResponse.ReservationData.ReservationInfo))">
+        <input type="hidden" name="CustomeInfo" value="@(Model.TransactionResponse.ReservationData.CustomerInfo)">
+        @foreach (var roomingBlock in Model.Rooms)
+        {
+<input type="hidden" name="TravellerCount@(rindex)" value="@(roomingBlock.Travellers.Count())">
+
+                <h4 style="color:cornflowerblue ">Room @roomingBlock.RoomNumber</h4> var tindex = 1;
+
+
+
+
+
+                @foreach (var traveller in roomingBlock.Travellers)
+                {
+
+<h4 style="color:lightskyblue">Traveller @tindex (@traveller.PassengerType)</h4>
+                    <table>
+
+                        <tr>
+                            <td>
+                                Title:<br />
+                                <select name="title@(rindex)@(tindex)" style="width:200px">
+                                    <option value="1">Mr</option>
+                                    <option value="2">Ms</option>
+                                    <option value="3">Mrs</option>
+                                    <option value="4">Miss</option>
+                                </select>
+                            </td>
+                            <td>
+                                Name:<br />
+                                <input type="text" style="width:200px" name="Name@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                Surname:<br />
+                                <input type="text" style="width:200px" name="Surname@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                Nationality:<br />
+                                <select name="Nationality@(rindex)@(tindex)" style="width:200px">
+                                    @foreach (var nat in Model.Nationalities)
+                                    {
+                <option value="@nat.Id">@nat.Name</option>}
+                                </select>
+
+                            </td>
+                            <td>
+                                <input type="hidden" name="TravellerId@(rindex)@(tindex)" value="@traveller.TravellerId">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Code:<br />
+                                <select name="Code@(rindex)@(tindex)" style="width:200px">
+                                    @foreach (var code in Model.Nationalities)
+                                    {
+                <option value="@(code.ISDCode)">@code.Name +(@code.ISDCode)</option>}
+                                </select>
+                            </td>
+                            <td>
+                                Phone Number:<br />
+                                <input type="text" style="width:200px" name="PhoneNumber@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                BirthDate:<br />
+                                <input type="date" style="width:200px" name="BirthDate@(rindex)@(tindex)">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Passport no:<br />
+                                <input type="text" style="width:200px" name="PassportNo@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                Expire Date:<br />
+                                <input type="date" style="width:200px" name="ExpireDate@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                Issue Date:<br />
+                                <input type="date" style="width:200px" name="IssueDate@(rindex)@(tindex)">
+                            </td>
+                            <td>
+                                Issue Country:<br />
+                                <select name="IssueCountry@(rindex)@(tindex)" style="width:200px">
+                                    @foreach (var country in Model.Nationalities)
+                                    {
+                <option value="@country.Id">@country.Name</option>}
+                                </select>
+                            </td>
+                        </tr>
+                    </table>tindex++;
+                                    }rindex++;
+            }
+<br />
+        <button name="btnBook" type="button" class="btn btn-primary book">
+            Book Holiday Packages!
+        </button>

@@ -1,0 +1,146 @@
+﻿@using TourVisio.HPackage.Client.Models
+@model ResultModelView
+
+
+
+@if (Model.ErrorMsg != null && Model.ErrorMsg != "")
+{
+
+<div class="text-danger">@Model.ErrorMsg</div> }
+else
+{
+
+<h3 style="color:indigo">
+    Booking is Successful <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+        <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+        <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+    </svg><br />(Booking Number -> @Model.BookingNumber)
+</h3>
+
+                <br>
+                                <h5 style="color: darkslateblue">Travellers</h5>
+
+                                                <table border="1" > 
+                                                    <tr>
+
+                                                        <td style="color:cornflowerblue"><b>Name</b></td>
+                                                        <td></td>
+                                                        <td style="color:cornflowerblue"><b>Surname</b></td>
+                                                        <td></td>
+                                                        <td style="color:cornflowerblue"><b>BirthDate</b></td>
+
+                                                    </tr>
+                                                    @foreach (var trav in Model.Travellers)
+                                                    {
+                                                <tr>
+
+                                                    <td>@trav.Name</td>
+                                                    <td></td>
+                                                    <td>@trav.Surname</td>
+                                                    <td></td>
+                                                    <td>@(trav.BirthDate.HasValue ? trav.BirthDate.Value.ToString("dd.MM.yyyy") : "")</td>
+                                                </tr>}
+                                                </table>
+
+                                                                <br>
+                                                                                <h5 style="color:darkslateblue">Hotel Details</h5>
+                                                                                                <table border="1">
+                                                                                                    <tr>
+
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>Hotel Name</b></td>
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>City Name</b></td>
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>Room Type</b></td>
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>Room Boards</b></td>
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>Nights</b></td>
+                                                                                                        <td></td>
+                                                                                                        <td style="color:cornflowerblue"><b>Price</b></td>
+                                                                                                        <td></td>
+
+                                                                                                    </tr>
+
+                                                                                                    @foreach (var service in Model.Services.Where(s => s.ProductType == TourVisio.WebService.Adapter.Enums.enmProductType.Hotel))
+                                                                                                    {
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td>@service.ServiceDetails.HotelDetail.Name</td>
+                                                                                        <td></td>
+                                                                                        <td>@service.ServiceDetails.HotelDetail.Location.Name</td>
+                                                                                        <td></td>
+                                                                                        <td>@service.ServiceDetails.Room</td>
+                                                                                        <td></td>
+                                                                                        <td>@service.ServiceDetails.Board</td>
+                                                                                        <td></td>
+                                                                                        <td>@service.ServiceDetails.Night</td>
+                                                                                        <td></td>
+                                                                                        <td>@service.Price</td>
+                                                                                        <td></td>
+
+                                                                                    </tr>
+}
+
+                                                                                                </table>
+                                                                                                                <br>
+
+
+                                                                                                                                <br>
+                                                                                                                                                <h5 style="color:darkslateblue">Flight Details</h5>
+
+                                                                                                                                                                <table border="1">
+                                                                                                                                                                    <tr>
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td style="color:cornflowerblue"><b>Departure-Arrival</b></td>
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td style="color:cornflowerblue"><b>Departure-Arrival Date</b></td>
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td style="color:cornflowerblue"><b>Class</b></td>
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td style="color:cornflowerblue"><b>Price</b></td>
+                                                                                                                                                                        <td></td>
+
+
+                                                                                                                                                                        @foreach (var service in Model.Services.Where(s => s.ProductType == TourVisio.WebService.Adapter.Enums.enmProductType.Flight))
+                                                                                                                                                                        {
+                                                                                                                                                    <tr>
+                                                                                                                                                        <td></td>
+
+                                                                                                                                                        <td>@service.ServiceDetails.FlightInfo.Departure.Airport.Name</td>
+                                                                                                                                                        <td></td>
+                                                                                                                                                        <td></td>
+                                                                                                                                                        <td>@service.ServiceDetails.FlightInfo.FlightDate.Date.ToString("dd.MM.yyyy")</td>
+                                                                                                                                                        <td></td>
+                                                                                                                                                        <td>@service.ServiceDetails.FlightInfo.FlightClass.Name</td>
+                                                                                                                                                        <td></td>
+                                                                                                                                                        <td>@service.Price</td>
+                                                                                                                                                        <td></td>
+                                                                                                                                                    </tr>
+}
+
+
+
+                    
+                                                                                                                                                                </table>
+                                                                                                                                                                <br/>
+
+                                                                                                                                                                <h5 style="color:darkslateblue">Total Price</h5>
+                                                                                                                                                                <table border="1">
+                                                                                                                                                                    <tr>
+
+                                                                                                                                                                        <td></td>
+                                                                                                                                                                        <td style="color:cornflowerblue"><b>Total Price</b></td>
+                                                                                                                                                                      
+                                                                                                                                                                        
+                                                                                                                                                                        <td>@Model.TotalPrice.Amount</td>
+
+                                                                                                                                                                            <td>@Model.TotalPrice.Currency</td>
+                                                                                                                                                                                            
+                                                                                                                                                                    </tr>
+                                                                                                                                                                    
+                                                                                                                                                                       </table>
+}
+

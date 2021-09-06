@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+//using TourVisio.Hotel.Client.Models;
 using TourVisio.HPackage.Client.Models;
 using TourVisio.WebService.Adapter.Enums;
 using TourVisio.WebService.Adapter.Models;
+using TourVisio.WebService.Adapter.Models.Booking;
 using TourVisio.WebService.Adapter.ServiceModels.BookingModels;
 using TourVisio.WebService.Adapter.ServiceModels.LookupModels;
 using TourVisio.WebService.Adapter.ServiceModels.ProductModels;
@@ -19,6 +20,8 @@ namespace TourVisio.HPackage.Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+          List<enmProductType> RoomingSupportedProductTypes = new List<enmProductType>() { enmProductType.Hotel, enmProductType.Cruise };
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -33,7 +36,7 @@ namespace TourVisio.HPackage.Client.Controllers
                 var pRequest = new GetCurrenciesRequest() { SearchType = enmCurrencySearchType.ForSearch };
                 
 
-                LookupRepository lookUp = new LookupRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                LookupRepository lookUp = new LookupRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 
                 var rResponse = lookUp.GetCurrencies(pRequest);
                 
@@ -48,7 +51,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest2 = new GetDeparturesRequest(){ ProductType = enmProductType.HolidayPackage} ;
 
-                ProductRepository pRepo = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository pRepo = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rResponse2 = pRepo.GetDepartures(pRequest2);
                 
 
@@ -69,7 +72,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest3 = new GetArrivalsRequest() { ProductType = enmProductType.HolidayPackage, DepartureLocations = rResponse2.Body.Locations.ToList()};
      
-                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rReponse3 = pRepop.GetArrivals(pRequest3);
 
                 if (rReponse3.Header.Success)
@@ -88,7 +91,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest4 = new GetCheckInDatesRequest()  { ProductType = enmProductType.HolidayPackage, DepartureLocations = rResponse2.Body.Locations.ToList(), ArrivalLocations = rReponse3.Body.Locations.ToList(), IncludeSubLocations = true };
 
-                ProductRepository prepop2 = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository prepop2 = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rResponse4 = prepop2.GetCheckInDates(pRequest4);
 
                 if (rResponse4.Header.Success)
@@ -115,7 +118,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest3 = new GetArrivalsRequest() { ProductType = enmProductType.HolidayPackage, DepartureLocations = departureLocations };
 
-                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rReponse3 = pRepop.GetArrivals(pRequest3);
 
                 if (rReponse3.Header.Success)
@@ -163,7 +166,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest4 = new GetCheckInDatesRequest() { ProductType = enmProductType.HolidayPackage, ArrivalLocations = arrivallocations, DepartureLocations = departureLocations, IncludeSubLocations = true };
 
-                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository pRepop = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rReponse3 = pRepop.GetCheckInDates(pRequest4);
 
                 if (rReponse3.Header.Success)
@@ -205,7 +208,7 @@ namespace TourVisio.HPackage.Client.Controllers
 
                 var pRequest5 = new GetNightsRequest() { ProductType = enmProductType.HolidayPackage, ArrivalLocations = arrivallocations, DepartureLocations = departureLocations, CheckIn = checkInDate, IncludeSubLocations = true };
 
-                ProductRepository pRepo5 = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository pRepo5 = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rReponse5 = pRepo5.GetNights(pRequest5);
 
                 if (rReponse5.Header.Success)
@@ -225,7 +228,7 @@ namespace TourVisio.HPackage.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search([FromBody] SearchViewModel searchForm, string arrivalLocationId, int arrivalLocationType, string departureLocationId, int departureLocationType, DateTime checkIn)
+        public IActionResult Search([FromBody] SearchViewModel searchForm) 
         {
             
 
@@ -345,54 +348,37 @@ namespace TourVisio.HPackage.Client.Controllers
                     }
                     roomCriteria.Add(room4);
                 }
-                //var checkIn = DateTime.Parse(searchForm.CheckInDate);
-
-
+               
                 var pRequest3 = new PriceSearchRequest()
                 {
                     CheckIn = DateTime.ParseExact(searchForm.CheckInDate, "MM/dd/yyyy", null),
-                    Night = (checkIn).Day,
+                    Night = int.Parse(searchForm.Nights),
                     RoomCriteria = roomCriteria != null ? roomCriteria : new List<mdlRoomCriteria>(),
                     Currency = searchForm.Currency != null ? searchForm.Currency : string.Empty,
+                    ProductType = enmProductType.HolidayPackage,
+                    Nationality = searchForm.Nationality,
+                    CheckAllotment = false,
+                    CheckStopSale = false,
+                    GetOnlyDiscountedPrice = false
                 };
-
-                if (searchForm.DepartureType == 2)
-                {
-                    var products = new List<string>();
-                    products.Add(searchForm.DepartureId);
-                    pRequest3.Products = products;
-                }
-                else
-
-                {
-                    var locations = new List<mdlLocation>();
-                    var location = new mdlLocation();
-                    location.Id = searchForm.DepartureId;
-                    locations.Add(location);
-                    pRequest3.ArrivalLocations = locations;
-                }
-
-                if (searchForm.ArrivalType == 2)
-                {
-                    var products = new List<string>();
-                    products.Add(searchForm.ArrivalId);
-                    pRequest3.Products = products;
-                }
-                else
-
-                {
-                    var locations = new List<mdlLocation>();
-                    var location = new mdlLocation();
-                    location.Id = searchForm.ArrivalId;
-                    locations.Add(location);
-                    pRequest3.DepartureLocations = locations;
-                    pRequest3.Products = new List<string>();
-                    pRequest3.ProductType = enmProductType.HolidayPackage;
-                    pRequest3.ArrivalLocations = new List<mdlLocation>();
-                }
+ 
+                    var deplocations = new List<mdlLocation>();
+                    var deplocation = new mdlLocation();
+                    deplocation.Id = searchForm.DepartureId;
+                    deplocation.Type = enmLocationType.City;
+                    deplocations.Add(deplocation);
+                    pRequest3.DepartureLocations = deplocations;
+                    
+                
+                    var arvlocations = new List<mdlLocation>();
+                    var arvlocation = new mdlLocation();
+                    arvlocation.Id = searchForm.ArrivalId;
+                    arvlocation.Type = enmLocationType.City;
+                    arvlocations.Add(arvlocation);
+                    pRequest3.ArrivalLocations = arvlocations;
 
 
-                ProductRepository productRepo = new ProductRepository(User.Claims.First().Value, "https://t3-services.tourvisio.com/v2/");
+                ProductRepository productRepo = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
                 var rResponse3 = productRepo.PriceSearch(pRequest3);
 
                 if (rResponse3.Header.Success)
@@ -414,21 +400,218 @@ namespace TourVisio.HPackage.Client.Controllers
             
         }
 
-      
 
 
+        public IEnumerable<mdlTraveller> GetTravellers(string[] pTravellers, TransactionResponse pTransactionResponse)
+        {
+            return pTransactionResponse.ReservationData.Travellers.Where(w => pTravellers.Contains(w.TravellerId));
+        }
 
         public IActionResult Privacy()
             {
                 return View();
             }
 
-            [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+            //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    
 
+        IEnumerable<RoomingBlock> GetRooms(TransactionResponse pTransactionResponse)
+        {
+            var groups = pTransactionResponse.ReservationData.Services.Where(w => RoomingSupportedProductTypes.Contains(w.ProductType) && w.IsExtraService == false && (w.AdditionalFields == null || (w.AdditionalFields != null && !w.AdditionalFields.ContainsKey("removable"))))
+                .GroupBy(g => new { g.ProductType, g.Code });
+            var roomNumber = 1;
+            foreach (var group in groups)
+            {
+                foreach (var service in group.ToList())
+                {
+                    yield return new RoomingBlock()
+                    {
+                        RoomNumber = roomNumber++,
+                        Travellers = GetTravellers(service.Travellers, pTransactionResponse)
+                    };
+                }
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Reservation(string offerId, string currency)
+        {
+            ReservationModel result = new ReservationModel();
+            if (User != null && User.Identity.IsAuthenticated)
+            {
+                var pRequest4 = new GetOfferDetailsRequest()
+                {
+                    OfferIds = new string[] { offerId }
+                };
+                ProductRepository product = new ProductRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
+                var rResponse4 = product.GetOfferDetails(pRequest4);
+                if (rResponse4.Header.Success)
+                {
+                    result.offer = rResponse4.Body.OfferDetails;
+                    var pRequest5 = new BeginTransactionRequest()
+                    {
+                        OfferIds = new string[] { offerId },
+                        Currency = currency,
+                    };
+
+                    BookingRepository booking = new BookingRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
+                    var rResponse5 = booking.BeginTransaction(pRequest5);
+                    if (rResponse5.Header.Success)
+                    {
+                        result.TransactionResponse = rResponse5.Body;
+                        result.Rooms = GetRooms(rResponse5.Body);
+
+                        var pRequest6 = new GetNationalitiesRequest();
+                        LookupRepository lookup1 = new LookupRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
+                        var rResponse1 = lookup1.GetNationalities(pRequest6);
+
+
+                        if (rResponse1.Header.Success)
+                        {
+                            result.Nationalities = rResponse1.Body.Nationalities;
+                        }
+                        return View(result);
+                    }
+                    else
+                    {
+                        result.ErrorMsg = rResponse5.Header.Messages.First().Message;
+                    }
+                }
+
+                else
+                {
+                    result.ErrorMsg = rResponse4.Header.Messages.First().Message;
+                }
+            }
+            return View(result);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Result(string transactionId)
+        {
+
+            ResultModelView r1 = new ResultModelView();
+
+            if (User != null && User.Identity.IsAuthenticated)
+            {
+                var pRequest = new CommitTransactionRequest();
+                pRequest.TransactionId = Guid.Parse(transactionId);
+                BookingRepository booking = new BookingRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
+                var rResponse = booking.CommitTransaction(pRequest);
+
+                if (rResponse.Header.Success)
+                {
+                    r1.TransactionId = rResponse.Body.TransactionId.ToString();
+                    r1.BookingNumber = rResponse.Body.ReservationNumber;
+
+                    var pRequest1 = new GetReservationDetailRequest();
+                    pRequest1.ReservationNumber = rResponse.Body.ReservationNumber;
+                    var rResponse1 = booking.GetReservationDetail(pRequest1);
+
+
+
+                    if (rResponse1.Header.Success)
+                    {
+                        r1.Travellers = rResponse1.Body.ReservationData.Travellers;
+                        r1.Services = rResponse1.Body.ReservationData.Services;
+                        r1.TotalPrice = rResponse1.Body.ReservationData.ReservationInfo.TotalPrice;
+
+                    }
+                    else
+                    {
+                        r1.ErrorMsg = rResponse1.Header.Messages.First().Message;
+                    }
+                }
+                else
+                {
+                    r1.ErrorMsg = rResponse.Header.Messages.First().Message;
+                }
+            }
+            else
+            {
+                r1.ErrorMsg = "Please login first.";
+            }
+
+            return View(r1);
+        }
+
+        [HttpPost]
+
+        public ActionResult Booking([FromBody] BookingViewModel resForm)
+        {
+            BookingReservationModel b1 = new BookingReservationModel();
+            if (User != null && User.Identity.IsAuthenticated)
+            {
+                var pRequest = new SetReservationInfoRequest();
+                pRequest.TransactionId = Guid.Parse(resForm.TransactionId);
+
+                pRequest.Currency = resForm.Currency;
+
+                pRequest.AgencyReservationNumber = resForm.AgencyReservationNumber;
+
+                pRequest.ReservationInfo = JsonConvert.DeserializeObject<mdlReservationInfo>(resForm.ReservationInfo);
+
+                pRequest.CustomerInfo = resForm.CustomerInfo;
+
+                List<mdlTraveller> travellers = new List<mdlTraveller>();
+                foreach (var room in resForm.Rooms)
+                {
+                    foreach (var trav in room.Travellers)
+                    {
+                        var trv = new mdlTraveller();
+
+                        trv.Title = (enmTitle)trav.Title;
+                        trv.Name = trav.Name;
+                        trv.Surname = trav.Surname;
+                        trv.TravellerId = trav.TravellerId;
+                        trv.BirthDate = trav.BirthDate;
+                        var nationality = new mdlNationality();
+                        nationality.TwoLetterCode = trav.Nationality;
+                        trv.Nationality = nationality;
+                        var passNo = new mdlPassportInfo();
+                        passNo.Number = trav.PassportNo;
+                        passNo.IssueCountryCode = trav.IssueCountry;
+                        passNo.IssueDate = DateTime.Parse(trav.IssueDate);
+                        passNo.IssueDate = DateTime.Parse(trav.ExpireDate);
+
+                        trv.PassportInfo = passNo;
+
+                        var phone = new mdlPhoneNumber();
+                        phone.CountryCode = trav.Code;
+                        phone.PhoneNumber = trav.PhoneNumber;
+
+                        var address = new WebService.Adapter.Models.Booking.mdlAddress();
+                        address.ContactPhone = phone;
+
+                        trv.Address = address;
+                        travellers.Add(trv);
+                        
+                    }
+                }
+                pRequest.Travellers = travellers.ToArray();
+
+                BookingRepository booking = new BookingRepository(User.Claims.First().Value, "https://prod-services.tourvisio.com/v2/");
+                var rResponse = booking.SetReservationInfo(pRequest);
+
+                if (rResponse.Header.Success)
+                {
+                    b1.TransactionId = rResponse.Body.TransactionId.ToString();
+                }
+                else
+                {
+                    b1.ErrorMsg = rResponse.Header.Messages.First().Message;
+                }
+            }
+            else
+            {
+                b1.ErrorMsg = "Please login First";
+            }
+            return Json(b1);
+        }
     }
 }

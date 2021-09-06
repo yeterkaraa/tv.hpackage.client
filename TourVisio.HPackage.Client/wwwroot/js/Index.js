@@ -125,91 +125,16 @@
 
     });
 
-    $("[name='Location']").autocomplete({
-        source: function (request, response) {
-            $.getJSON("/Home/Location", request, function (data) {
-                response($.map(data, function (item) {
-                    var name = "";
-                    var id = "";
 
-                    let hotel = item.hotel == null ? "" : item.hotel.name;
-                    let village = item.village == null ? "" : item.village.name;
-                    let town = item.town == null ? "" : item.town.name;
-                    let city = item.city == null ? "" : item.city.name;
-                    let state = item.state == null ? "" : item.state.name;
-                    let country = item.country == null ? "" : item.country.name;
 
-                    switch (item.type) {
-
-                        case 1:
-                            id = item.city.id;
-
-                            if (state == "") {
-                                name = city;
-                            } else {
-                                name = city + " " + country;
-                            }
-                            break;
-
-                        case 2:
-                            id = item.hotel.id;
-                            if (hotel == "") {
-                                name = hotel;
-                            } else {
-                                name = hotel + " " + city + " " + country;
-                            }
-                            break;
-
-                        case 4:
-                            id = item.town.id;
-
-                            if (town == "") {
-                                name = town;
-                            } else {
-                                name = town + " " + hotel + " " + city + " " + country;
-                            }
-                            break;
-
-                        case 5:
-                            id = item.village.id;
-                            if (village == "") {
-                                name = village;
-                            } else {
-                                name = village + " " + town + " " + hotel + " " + city + " " + country;
-                            }
-                            break;
-
-                        case 8:
-                            id = item.country.id;
-                            if (country == "") {
-                                name = village + " " + town + " " + hotel + " " + city + " " + country;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    return {
-                        label: name,
-                        value: id
-                    };
-                }));
-            });
-        },
-        select: function (event, ui) {
-            $("[name='Location']").val(ui.item.label);
-            $("[name='LocationId']").val(ui.item.value);
-            $("[name='LocationType']").val(ui.item.value);
-            return false;
-        }
-    });
 
 
     $("[name='btnPost']").click(function () {
         var searchForm = new Object();
-        searchForm.Location = $("[name='Location']").val();
-        searchForm.LocationId = $("[name='LocationId']").val();
-        searchForm.LocationType = parseInt($("[name='LocationType']").val());
+        searchForm.ArrivalId = $("[name='Arrival']").val();
+        searchForm.DepartureId = $("[name='Departure']").val();
         searchForm.CheckInDate = $("[name='CheckInDate']").val();
+        searchForm.Nights = $("[name='Nights']").val();
         searchForm.Nationality = $("[name='Nationality']").val();
         searchForm.Currency = $("[name='Currency']").val();
         searchForm.Room = parseInt($("[name='Room']").val());
@@ -273,6 +198,80 @@
         var id = $(this).attr("offerId");
         window.location.href = "/Home/Reservation?offerId=" + id + "&currency=" + $("[name='Currency']").val();
     });
+    $("[name='btnBook']").click(function () {
+
+        var roomCount = $("[name='RoomCount']").val();
+
+        var resForm = new Object();
+        var transactionId = $("[name='TransactionId']").val();
+        resForm.TransactionId = transactionId;
+
+        var currency = $("[name='Currency']").val();
+        resForm.Currency = currency;
+
+        var agencyResNumber = $("[name='AgencyReservationNumber']").val();
+        resForm.AgencyReservationNumber = agencyResNumber;
+
+        var resInfo = $("[name='ReservationInfo']").val();
+        resForm.ReservationInfo = resInfo;
+
+        var customerInfo = $("[name='CustomerInfo']").val();
+        resForm.CustomerInfo = customerInfo;
+
+        var birthDate = $("[name='BirthDate']").val();
+        resForm.BirthDate = birthDate;
+        var rooms = new Array();
+
+        for (var r = 1; r <= roomCount; r++) {
+            var travellerCount = $("[name='TravellerCount" + r + "']").val();
+            var room = new Object();
+            room.RoomNumber = r;
+            var travellers = new Array();
+
+            for (var t = 1; t <= travellerCount; t++) {
+                var traveller = new Object();
+                traveller.Title = $("[name='title" + r + t + "']").val();
+                traveller.Name = $("[name='Name" + r + t + "']").val();
+                traveller.Surname = $("[name='Surname" + r + t + "']").val();
+                traveller.Nationality = $("[name='Nationality" + r + t + "']").val();
+                traveller.Code = $("[name='Code" + r + t + "']").val();
+                traveller.PhoneNumber = $("[name='PhoneNumber" + r + t + "']").val();
+                traveller.PassportNo = $("[name='PassportNo" + r + t + "']").val();
+                traveller.ExpireDate = $("[name='ExpireDate" + r + t + "']").val();
+                traveller.IssueDate = $("[name='IssueDate" + r + t + "']").val();
+                traveller.IssueCountry = $("[name='IssueCountry" + r + t + "']").val();
+                traveller.travellerId = $("[name='TravellerId" + r + t + "']").val();
+                traveller.BirthDate = $("[name='BirthDate" + r + t + "']").val();
+                travellers.push(traveller);
+            }
+            room.Travellers = travellers;
+            rooms.push(room);
+        }
+        resForm.Rooms = rooms;
+        if (resForm != null) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/Booking",
+                data: JSON.stringify(resForm),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.transactionId != null) {
+                        window.location.href = "/Home/Result?transactionId=" + response.transactionId;
+                    } else {
+                        alert(response.error);
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+    });
+
 
 })
 

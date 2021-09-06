@@ -47,7 +47,7 @@ namespace TourVisio.HPackage.Client.Controllers
                 pRequest.WebRequestDetail.Domain = Request.Host.Value;
                 pRequest.WebRequestDetail.Referrer = Request.Headers["Referer"];
                 pRequest.Version = GetType().Assembly.GetName().Version.ToString();
-                AuthenticationRepository authentication = new AuthenticationRepository("xyz", "https://t3-services.tourvisio.com/v2/");
+                AuthenticationRepository authentication = new AuthenticationRepository("xyz", "https://prod-services.tourvisio.com/v2/");
                 var pResponse = authentication.Login(pRequest);
 
                 if (pResponse.Header.Success)

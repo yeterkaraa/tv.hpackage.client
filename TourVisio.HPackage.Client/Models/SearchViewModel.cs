@@ -179,5 +179,6 @@ namespace TourVisio.HPackage.Client.Models
             get;
             set;
         }
+        public string Nationality { get; internal set; }
     }
 }
